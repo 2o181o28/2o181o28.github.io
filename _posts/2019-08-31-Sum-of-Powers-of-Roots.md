@@ -5,7 +5,6 @@ date:		2019-08-31
 author:		wyj
 catalog:	true
 tags:
-    - Blog
     - OI
     - 数学
 ---
