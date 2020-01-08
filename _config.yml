@@ -98,5 +98,8 @@ service-worker: true
 
 # Friends
 friends: [
-
+	{
+		title: "snz",
+		href: "https://sunnuozhou.github.io"
+	}
 ]
