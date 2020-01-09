@@ -23,6 +23,7 @@ layout: default
     {% endif %}
 </style>
 <header class="intro-header" >
+
 <script type="text/javascript">
 let isMathjaxConfig = false; // 防止重复调用Config，造成性能损耗
 
@@ -47,6 +48,11 @@ const initMathjaxConfig = () => {
 };
 </script>
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<!-- prismjs代码高亮 -->
+<link href="/css/prism.css" rel="stylesheet" />
+<script src="/js/prism.js"></script>
+
     <div class="header-mask"></div>
     <div class="container">
         <div class="row">
