@@ -23,21 +23,30 @@ layout: default
     {% endif %}
 </style>
 <header class="intro-header" >
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
+<script type="text/javascript">
+let isMathjaxConfig = false; // 防止重复调用Config，造成性能损耗
+
+const initMathjaxConfig = () => {
+  if (!window.MathJax) {
+    return;
+  }
+  window.MathJax.Hub.Config({
+    showProcessingMessages: false, //关闭js加载过程信息
+    messageStyle: "none", //不显示信息
     jax: ["input/TeX", "output/HTML-CSS"],
     tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-      processEscapes: true
+      inlineMath: [["$", "$"], ["\\(", "\\)"]], //行内公式选择符
+      displayMath: [["$$", "$$"], ["\\[", "\\]"]], //段内公式选择符
+      skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] //避开某些标签
     },
-    "HTML-CSS": { fonts: ["TeX"] }
+    "HTML-CSS": {
+      availableFonts: ["STIX", "TeX"], //可选字体
+    }
   });
+  isMathjaxConfig = true; // 
+};
 </script>
-<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <div class="header-mask"></div>
     <div class="container">
         <div class="row">
@@ -241,3 +250,13 @@ layout: default
     }
 </style>
 {% endif %}
+
+<script>
+if (isMathjaxConfig === false) { // 如果：没有配置MathJax
+  initMathjaxConfig();
+}
+
+// 如果，不传入第三个参数，则渲染整个document
+// 因为使用的Vuejs，所以指明#app，以提高速度
+window.MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+</script>
