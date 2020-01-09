@@ -24,6 +24,7 @@ layout: default
 </style>
 <header class="intro-header" >
 
+<!-- MathJax -->
 <script type="text/javascript">
 let isMathjaxConfig = false; // 防止重复调用Config，造成性能损耗
 
@@ -52,6 +53,9 @@ const initMathjaxConfig = () => {
 <!-- prismjs代码高亮 -->
 <link href="/css/prism.css" rel="stylesheet" />
 <script src="/js/prism.js"></script>
+<script type="text/javascript">
+  $('pre').addClass("line-numbers").css("white-space", "pre-wrap");
+</script>
 
     <div class="header-mask"></div>
     <div class="container">
