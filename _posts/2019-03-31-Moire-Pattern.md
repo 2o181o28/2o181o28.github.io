@@ -18,7 +18,7 @@ tags:
 首先是我不能自己写图片，因为ppm不支持alpha通道，并且我再也不想手写输出png了。于是使用现成的Qt轮子QPixmap。然而这个QPixmap却不能`SetAlphaChannel`，因为这个已经被标记为`QT_DEPRECATED`了，我怎么设置编译选项都不能使他通过编译。同理，google的大多数解决方案都失效了。Qt的documentation嘲讽我：这东西太容易用QPainter实现了，于是干脆把这个功能删掉了。
 
 后来经过反复尝试，我发现QColor的构造函数居然有第四个隐藏的参数。于是可以这么设置图片透明（只在初始化时有效）：
-```cpp
+```clike
 QPixmap pix;QPainter p(&pix); //这是我试错试出的QPainter在QPixmap上画图的方法
 p.fillRect(pix.rect(),{{255,255,255,0}}); //C++11让这条语句不知所云
 ```

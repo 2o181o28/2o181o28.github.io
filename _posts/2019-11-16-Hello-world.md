@@ -5,11 +5,13 @@ subtitle:	world
 date:		2019-11-16
 author:		wyj
 catalog:	true
+tags:
+    - 伪置顶
 ---
 
 >前人栽树，后人乘凉。fork自[qiubaiying.github.io](https://github.com/qiubaiying/qiubaiying.github.io)
 
-```cpp
+```clike
 //LaTeX测试
 ```
 
@@ -35,3 +37,8 @@ $$ \Large\textrm{Hello, world!} $$
 ```
 
 然后就可以用正常的字体显示公式了，比如 $F(x)=x^2$。
+
+[Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
+
+这个是代码块的高亮+行号+复制。我目前选择了`clike`,`python`,`bash & shell`,`pascal`,`yaml`,`html`,`markdown`,`Latex`,`javascript`,`CSS`的高亮。由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```clike/g' {} \;`来批量文本替换。
+
