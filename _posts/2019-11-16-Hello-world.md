@@ -11,7 +11,7 @@ tags:
 
 >前人栽树，后人乘凉。fork自[qiubaiying.github.io](https://github.com/qiubaiying/qiubaiying.github.io)
 
-```clike
+```cpp
 //LaTeX测试
 ```
 
@@ -40,5 +40,6 @@ $$ \Large\textrm{Hello, world!} $$
 
 [Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
 
-这个是代码块的高亮+行号+复制。我目前选择了`clike`,`python`,`bash & shell`,`pascal`,`yaml`,`html`,`markdown`,`Latex`,`javascript`,`CSS`的高亮。由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```clike/g' {} \;`来批量文本替换。
+这个是代码块的高亮+行号+复制。我目前选择了`c`,`c++`,`python`,`bash & shell`,`pascal`,`yaml`,`html`,`markdown`,`Latex`,`javascript`,`CSS`的高亮。
 
+最开始由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```cpp/g' {} \;`来批量文本替换。后来我发现这个`clike`高亮的内容太少了，不得不加上`c`和`c++`。

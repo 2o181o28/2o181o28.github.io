@@ -32,7 +32,7 @@ $$Fitness(p):=\sum_{i=0}^{N-1}(1-{\min_{j\neq i}{dis(p_i,p_j)}})^2$$
 
 C++11代码如下：
 
-```clike
+```cpp
 #include<bits/stdc++.h>
 using namespace std;
 const int N=10,scale=300;
@@ -102,25 +102,25 @@ int main(){
 网上找到C写法没有几个能通过编译，最后是自己试错试出来的。
 
 下面可能是唯一通过编译的写法：
-```clike
+```cpp
 // vars.h
 extern QPointF p[N]; //必须有extern和数组大小。
 ```
-```clike
+```cpp
 //thread.h
 #include "vars.h"
 
 ```
-```clike
+```cpp
 //thread.cpp
 #include “thread.h”
 QPointF p[]; //必须没有extern，没有数组大小
 ```
-```clike
+```cpp
 //mainwindow.h
 #include "thread.h"
 ```
-```clike
+```cpp
 //mainwindow.cpp
 #include "mainwindow.h"
 extern QPointF p[]; //必须有extern，没有数组大小
