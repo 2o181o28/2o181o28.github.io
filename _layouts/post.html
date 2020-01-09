@@ -30,6 +30,7 @@ const initMathjaxConfig = () => {
   if (!window.MathJax) {
     return;
   }
+  console.log("OKK");
   window.MathJax.Hub.Config({
     showProcessingMessages: false, //关闭js加载过程信息
     messageStyle: "none", //不显示信息
@@ -43,7 +44,7 @@ const initMathjaxConfig = () => {
       availableFonts: ["STIX", "TeX"], //可选字体
     }
   });
-  isMathjaxConfig = true; // 
+  isMathjaxConfig = true;
 };
 </script>
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
@@ -256,7 +257,6 @@ if (isMathjaxConfig === false) { // 如果：没有配置MathJax
   initMathjaxConfig();
 }
 
-console.log("Init success!");
 // 如果，不传入第三个参数，则渲染整个document
 // 因为使用的Vuejs，所以指明#app，以提高速度
 window.MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
