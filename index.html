@@ -3,17 +3,17 @@ layout: page
 description: "Some dying memory..."
 ---
 
-{* for post in site.posts *}
-    {* if post.top != true *}
-        {* continue *}
-    {* endif *}
-{* endfor *}
+{% for post in site.posts %}
+    {% if post.top != true %}
+        {% continue %}
+    {% endif %}
+{% endfor %}
 
-{* for post in site.posts *}
-    {* if post.top == true *}
-        {* continue *}
-    {* endif *}
-{* endfor *}
+{% for post in site.posts %}
+    {% if post.top == true %}
+        {% continue %}
+    {% endif %}
+{% endfor %}
 
 {% for post in paginator.posts %}
 <div class="post-preview">
