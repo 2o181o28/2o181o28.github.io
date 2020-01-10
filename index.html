@@ -3,13 +3,13 @@ layout: page
 description: "Some dying memory..."
 ---
 
-{% for post in site.posts %}
+{% for post in paginator.posts %}
     {% if post.top != true %}
         {% continue %}
     {% endif %}
 {% endfor %}
 
-{% for post in site.posts %}
+{% for post in paginator.posts %}
     {% if post.top == true %}
         {% continue %}
     {% endif %}
