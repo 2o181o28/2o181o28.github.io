@@ -42,3 +42,7 @@ $$ \Large\textrm{Hello, world!} $$
 这个是代码块的高亮+行号+复制。我目前选择了`c`,`c++`,`python`,`bash & shell`,`pascal`,`yaml`,`html`,`markdown`,`Latex`,`javascript`,`CSS`的高亮。
 
 最开始由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```cpp/g' {} \;`来批量文本替换。后来我发现这个`clike`高亮的内容太少了，不得不加上`c`和`c++`。
+
+[文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
+
+这个实现相当丑陋，大概是把后面的页中的置顶抽出来扔到第一页，导致每一页的博文数量不一样。然而我不会用`sort`置顶（因为找不到post的变量名）。
