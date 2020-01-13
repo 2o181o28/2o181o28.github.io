@@ -46,3 +46,11 @@ $$ \Large\textrm{Hello, world!} $$
 [文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
 
 这个实现相当丑陋，大概是把后面的页中的置顶抽出来扔到第一页，导致每一页的博文数量不一样。然而我不会用`sort`置顶（因为找不到post的变量名）。
+
+[本地运行](http://github.tiankonguse.com/blog/2015/10/08/jekyll-run-in-local.html)
+
+完全不用管那么多，直接
+```bash
+sudo apt install jekyll
+jekyll serve --watch --config _config.yml
+```
