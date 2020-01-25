@@ -1,0 +1,68 @@
+---
+layout: page
+title: WASM演示
+hidden: true
+---
+
+<script>
+function loadWebAssembly (path, imports = {}) {
+  return fetch(path) // 加载文件 
+	.then(response => response.arrayBuffer()) // 转成 ArrayBuffer
+	.then(buffer => WebAssembly.compile(buffer))
+	.then(module => {
+	  imports.env = imports.env || {}
+	  
+	  // 栈空间
+	  imports.env.stackSave = imports.env.stackRestore = function(){return 1000;};
+
+	  // 开辟内存空间
+	  imports.env.__memory_base = imports.env.__memory_base || 0
+	  if (!imports.env.memory) {
+		imports.env.memory = new WebAssembly.Memory({ initial: 256})
+	  }
+
+	  // 创建变量映射表
+	  imports.env.__table_base = imports.env.__table_base || 0
+	  if (!imports.env.table) {
+		// 在 MVP 版本中 element 只能是 "anyfunc"
+		imports.env.table = new WebAssembly.Table({ initial: 0, element: 'anyfunc' })
+	  }
+
+	  // 创建 WebAssembly 实例
+	  return new WebAssembly.Instance(module, imports)
+	})
+}
+</script>
+
+<script>
+function Calc(type){
+	var v=+$("input#A").val();
+	if(v!=v || v>2e9 || v<0){
+		alert("Invalid Input!");
+		return;
+	}
+	loadWebAssembly('/files/1.wasm')
+        .then(instance => {
+            if(type==0){
+            	const fib = instance.exports.fib;
+
+	            $("input#B").val(fib(v));
+	        }else{
+	        	if(v>40){alert("TLE");return;}
+	        	const d=+new Date();
+	        	const fib = instance.exports.fib_slow;
+
+	            $("input#B").val(fib(v));
+	            alert("计算完成。用时"+(+new Date()-d)+"ms");
+	        }
+        });
+}
+</script>
+
+<p>输入$n$，输出斐波那契数的第$n$项$\bmod 998244353$。</p>
+<input type="text" id="A"></input>
+<button onclick="Calc(0)">矩乘计算</button>
+<button onclick="Calc(1)">暴力递归</button>
+<br><br>
+Output:
+<input type="text" readonly="" id="B"></input>
