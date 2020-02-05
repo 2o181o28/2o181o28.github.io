@@ -129,4 +129,4 @@ extern QPointF p[]; //必须有extern，没有数组大小
 
 别的都是些小问题。最后终于完成了，效果如下，**比想象中快很多**。
 
-![效果图](https://cdn.luogu.com.cn/upload/pic/37904.png)
+![效果图](/img/luogu_img/37904.png)
