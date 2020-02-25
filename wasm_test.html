@@ -41,7 +41,7 @@ function Calc(type){
 		alert("Invalid Input!");
 		return;
 	}
-	loadWebAssembly('/files/1.wasm')
+	loadWebAssembly('/files/test.wasm')
         .then(instance => {
             if(type==0){
             	const fib = instance.exports.fib;

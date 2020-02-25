@@ -1,0 +1,52 @@
+---
+layout: page
+title: 过气小游戏2048
+---
+
+<script src="/js/2048.js"></script>
+<script>
+ $(Init);
+</script>
+
+<style>
+#mainDiv{
+	width:500px;
+	height:550px;
+	margin:0 auto;
+	padding:25px
+}
+#cvs{
+	margin-top:60px
+}
+#scp{
+	font:bold 20px arial;
+	color:gray;
+	float:left;
+	margin:0
+}
+#score{
+	color:black;
+	font:bold 30px arial
+}
+.rst{
+	float:right;
+	width:100px;
+	height:40px;
+	border:none;
+	background-color:#cdc1b2;
+	font:bold 20px arial
+}
+</style>
+
+<div id="mainDiv">
+
+<p id="scp">Score: <a id="score">0</a></p>
+
+<button class="rst" onclick="reset()">Reset</button>
+
+<div id="cvs">
+<canvas id="canvas" width="450" height="450"></canvas>
+</div>
+
+</div>
+
