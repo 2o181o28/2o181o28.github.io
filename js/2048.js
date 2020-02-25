@@ -67,10 +67,11 @@ function Init(){
 	document.onkeydown=e=>{
 		if(fin)return;
 		let key=-1;
-		if(e.which==87/* || e.which==38*/)key=0;
-		if(e.which==65/* || e.which==37*/)key=1;
-		if(e.which==83/* || e.which==40*/)key=2;
-		if(e.which==68/* || e.which==39*/)key=3;
+		if(e.which>=37 && e.which<=40)e.preventDefault();
+		if(e.which==87 || e.which==38)key=0;
+		if(e.which==65 || e.which==37)key=1;
+		if(e.which==83 || e.which==40)key=2;
+		if(e.which==68 || e.which==39)key=3;
 		if(key<0)return;
 		let mv=move(key);
 		chkOver();if(fin)return;
