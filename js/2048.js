@@ -56,7 +56,7 @@ function newBlk(){
 	cnt=0;
 	for(let i=0;i<4;i++)
 		for(let j=0;j<4;j++)if(!a[i][j] && cnt++==t){
-			if(Math.random()<0.2)a[i][j]=2;
+			if(Math.random()<0.1)a[i][j]=2;
 			else a[i][j]=1;
 			return;
 		}
@@ -72,7 +72,24 @@ function chkOver(){
 		let ch=$("#score");
 		$("#scp").empty().append("Game over. Score: ").append(ch);
 		fin=1;
+		delete localStorage.arr;
+		delete localStorage.scr;
 	}
+}
+
+function save(){
+	localStorage.arr=JSON.stringify(a);
+	localStorage.scr=""+tot;
+}
+
+function load(){
+	console.log("Calling...");
+	let arr=JSON.parse(localStorage.arr);
+	for(let i=0;i<4;i++){
+		a[i]=new Int8Array(4);
+		for(let j=0;j<4;j++)a[i][j]=arr[i][j];
+	}
+	tot=parseInt(localStorage.scr);fin=0;draw();
 }
 
 function Init(){
@@ -91,7 +108,7 @@ function Init(){
 		chkOver();if(fin)return;
 		if(mv)newBlk();
 		chkOver();if(fin)return;
-		draw();
+		save();draw();
 	};
 	
 	var canvas=$("canvas")[0];
@@ -105,15 +122,17 @@ function Init(){
 			if(w[i]<=75){sz[i]=x;break;}
 		}
 	}
-
+	
 	window.scrollTo(0,400);
-	reset();
+	if(("arr" in localStorage) && ("scr" in localStorage))
+		load();
+	else reset();
 }
 
 function reset(){
 	for(let i=0;i<4;i++)a[i]=new Int8Array(4);
 	newBlk();newBlk();tot=0;fin=0;
-	draw();
+	draw();save();
 }
 
 function calc(x){return (x+1)*10+x*100;}
