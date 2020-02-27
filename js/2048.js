@@ -117,8 +117,11 @@ function Init(){
 		let vl=1<<i;
 		for(let x=60;x>=20;x--){
 			ctx.font="bold "+x+"px arial";
-			w[i]=ctx.measureText(vl).width;
-			h[i]=ctx.measureText(vl).actualBoundingBoxAscent;
+			let t=ctx.measureText(vl);
+			w[i]=t.width;
+			if("actualBoundingBoxAscent" in t)
+				h[i]=t.actualBoundingBoxAscent;
+			else h[i]=x*0.75;
 			if(w[i]<=75){sz[i]=x;break;}
 		}
 	}
