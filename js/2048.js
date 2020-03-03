@@ -92,6 +92,17 @@ function load(){
 	tot=parseInt(localStorage.scr);fin=0;draw();
 }
 
+async function handleKey(key){
+	if(key<0)return;
+	window.scrollTo(0,400);
+	for(let i=0;i<4;i++)b[i]=new Int8Array(a[i]);		
+	let mv=move(key);await animate();
+	chkOver();if(fin)return;
+	if(mv)newBlk();
+	chkOver();if(fin)return;
+	save();draw();
+}
+
 function Init(){
 	document.onkeydown=async e=>{
 		if(fin)return;
@@ -101,17 +112,20 @@ function Init(){
 		if(e.which==65 || e.which==37)key=1;
 		if(e.which==83 || e.which==40)key=2;
 		if(e.which==68 || e.which==39)key=3;
-		if(key<0)return;
-		window.scrollTo(0,400);
-		for(let i=0;i<4;i++)b[i]=new Int8Array(a[i]);		
-		let mv=move(key);await animate();
-		chkOver();if(fin)return;
-		if(mv)newBlk();
-		chkOver();if(fin)return;
-		save();draw();
+		await handleKey(key);
 	};
 	
 	var canvas=$("canvas")[0];
+	var hammer=new Hammer(canvas);
+	hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
+	hammer.on("swipe",async e=>{
+		let sgnX=e.deltaX>0,sgnY=e.deltaY>0,key=-1;
+		if(Math.abs(e.deltaY)>Math.abs(e.deltaX))
+			key=sgnY?2:0;
+		else key=sgnX?3:1;
+		await handleKey(key);
+	});
+	
 	var ctx=canvas.getContext("2d");
 	for(let i=1;i<30;i++){
 		let vl=1<<i;
