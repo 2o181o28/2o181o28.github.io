@@ -20,7 +20,7 @@ $$ \Large\textrm{Hello, world!} $$
 
 # 简介
 
-这是sczOIer wyj的个人博客。暂时没有置顶功能。
+这是sczOIer wyj的个人博客。~~暂时没有置顶功能。~~现在有了。
 
 会从我的[洛谷博客](https://www.luogu.org/blog/474D/)上搬迁**除题解以外的**博文。
 
@@ -28,7 +28,9 @@ $$ \Large\textrm{Hello, world!} $$
 
 [基础框架](https://github.com/qiubaiying/qiubaiying.github.io/wiki/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B)
 
-[LaTeX渲染](https://lloyar.github.io/2018/10/08/mathjax-in-jekyll.html)
+# 功能更新
+
+### [LaTeX渲染](https://lloyar.github.io/2018/10/08/mathjax-in-jekyll.html)
 
 上面那个LaTeX渲染是残废的，除非你[曾经优化过Chrome字体](https://www.luogu.com.cn/blog/ljf-cnyali/linux-zi-ti-xuan-ran-di-xiu-fu-yu-gai-shan)，字体会变得很丑，和别人的MathJax完全不一样。并且不支持使用`$ xxx $`。
 
@@ -39,19 +41,21 @@ $$ \Large\textrm{Hello, world!} $$
 
 然后就可以用正常的字体显示公式了，比如 $F(x)=x^2$。
 
-[Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
+### [Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
 
 这个是代码块的高亮+行号+复制。我目前选择了`c`,`c++`,`python`,`bash & shell`,`pascal`,`yaml`,`html`,`markdown`,`Latex`,`javascript`,`CSS`的高亮。
 
 最开始由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```cpp/g' {} \;`来批量文本替换。后来我发现这个`clike`高亮的内容太少了，不得不加上`c`和`c++`。
 
-不久后发现bug太多了，主要是空行和过长的行的行号不能正确显示，我就把行号插件去掉了。
+~~不久后发现bug太多了，主要是空行和过长的行的行号不能正确显示，我就把行号插件去掉了。~~
 
-[文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
+Edit on 2020/03/04：现在又可以了！首先我参考了[这个](cd59f3293519887b70015a7cdad20444de50908c)来还原`prism.js`和`prism.css`文件，然后删掉了CSS里面`white-space: pre-wrap;`一条属性，就可以把错误的换行和空行消除了。
+
+### [文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
 
 这个实现相当丑陋，大概是把后面的页中的置顶抽出来扔到第一页，导致每一页的博文数量不一样。然而我不会用`sort`置顶（因为找不到post的变量名）。
 
-[本地运行](http://github.tiankonguse.com/blog/2015/10/08/jekyll-run-in-local.html)
+### [本地运行](http://github.tiankonguse.com/blog/2015/10/08/jekyll-run-in-local.html)
 
 完全不用管那么多，直接
 ```bash
