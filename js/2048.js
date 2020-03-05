@@ -1,6 +1,6 @@
 var a=new Array(4),b=new Array(4),id=new Array(4),flg=new Array(4);
 var w=new Array(30),h=new Array(30),sz=new Array(30);
-var tot=0,fin=0;
+var tot=0,fin=0,Top=0;
 
 const colors=["#cdc1b2","#eee4d8","#ece2c5","#f8b172","#ff8f5a","#ff6e57","#ff432a","#ead86a",
 	"#ead659","#ebd244","#ebd02e","#ebcd04","#3e3e35"];
@@ -58,20 +58,24 @@ function newBlk(){
 		for(let j=0;j<4;j++)if(!a[i][j] && cnt++==t){
 			if(Math.random()<0.1)a[i][j]=2;
 			else a[i][j]=1;
+			if(flg[i])flg[i][j]=2;
 			return;
 		}
 }
 
-function chkOver(){
-	for(let i=0;i<4;i++)b[i]=new Int8Array(a[i]);
+async function chkOver(){
+	let tmp=new Array(4),tId=new Array(4),tFlg=new Array(4);
+	for(let i=0;i<4;i++)
+		tmp[i]=new Int8Array(a[i]),tId[i]=new Int8Array(id[i]),tFlg[i]=new Int8Array(flg[i]);
 	let old=tot,res=move(0)|move(1)|move(2)|move(3);
 	tot=old;
-	for(let i=0;i<4;i++)a[i]=new Int8Array(b[i]);
+	for(let i=0;i<4;i++)
+		a[i]=new Int8Array(tmp[i]),id[i]=new Int8Array(tId[i]),flg[i]=new Int8Array(tFlg[i]);
 	if(!res){
-		draw();
+		fin=1;
+		await animate();draw();
 		let ch=$("#score");
 		$("#scp").empty().append("Game over. Score: ").append(ch);
-		fin=1;
 		delete localStorage.arr;
 		delete localStorage.scr;
 	}
@@ -83,7 +87,6 @@ function save(){
 }
 
 function load(){
-	console.log("Calling...");
 	let arr=JSON.parse(localStorage.arr);
 	for(let i=0;i<4;i++){
 		a[i]=new Int8Array(4);
@@ -95,12 +98,12 @@ function load(){
 async function handleKey(key){
 	if(key<0)return;
 	window.scrollTo(0,400);
-	for(let i=0;i<4;i++)b[i]=new Int8Array(a[i]);		
-	let mv=move(key);await animate();
-	chkOver();if(fin)return;
+	for(let i=0;i<4;i++)b[i]=new Int8Array(a[i]);
+	let mv=move(key);
+	await chkOver();if(fin)return;
 	if(mv)newBlk();
-	chkOver();if(fin)return;
-	save();draw();
+	await chkOver();if(fin)return;
+	save();await animate();draw();
 }
 
 function Init(){
@@ -114,7 +117,7 @@ function Init(){
 		if(e.which==68 || e.which==39)key=3;
 		await handleKey(key);
 	};
-	
+
 	var canvas=$("canvas")[0];
 	var hammer=new Hammer(canvas);
 	hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
@@ -125,7 +128,7 @@ function Init(){
 		else key=sgnX?3:1;
 		await handleKey(key);
 	});
-	
+
 	var ctx=canvas.getContext("2d");
 	for(let i=1;i<30;i++){
 		let vl=1<<i;
@@ -139,7 +142,7 @@ function Init(){
 			if(w[i]<=75){sz[i]=x;break;}
 		}
 	}
-	
+
 	window.scrollTo(0,400);
 	if(("arr" in localStorage) && ("scr" in localStorage))
 		load();
@@ -158,11 +161,22 @@ function sleep(time){
 	return new Promise((x)=>setTimeout(x,time));
 }
 
-async function animate(){
-	var canvas=$("canvas")[0];
-	var ctx=canvas.getContext("2d");
+function drawText(v,x0,y0){
+	let ctx=$("canvas")[0].getContext("2d");
+	ctx.fillStyle=colors[Math.min(v,colors.length-1)];
+	ctx.fillRect(x0,y0,100,100);
+	if(v){
+		let vl=1<<v;
+		ctx.fillStyle=vl==2||vl==4?fc24:fcOther;
+		ctx.font="bold "+sz[v]+"px arial";
+		ctx.fillText(vl,x0+50-w[v]/2,y0+50+h[v]/2);
+	}
+}
 
-	let vec=[];
+async function animate(){
+	let ctx=$("canvas")[0].getContext("2d"),vec=[];
+	let Id=++Top;
+
 	for(let i=0;i<4;i++)
 		for(let j=0;j<4;j++)if(b[i][j]){
 			for(let x=0;x<4;x++)
@@ -179,33 +193,32 @@ async function animate(){
 			ctx.fillRect(calc(j),calc(i),100,100);
 		}
 		for(let i=0;i<vec.length;i++){
-			let v=b[vec[i].sx][vec[i].sy];
-			ctx.fillStyle=colors[v];
 			let Sx=calc(vec[i].sy),Ex=calc(vec[i].ey),
 				Sy=calc(vec[i].sx),Ey=calc(vec[i].ex),
 				x0=Sx*(Mx-cnt)/Mx+Ex*cnt/Mx,
 				y0=Sy*(Mx-cnt)/Mx+Ey*cnt/Mx;
-			ctx.fillRect(x0,y0,100,100);
-			let vl=1<<v;
-			ctx.fillStyle=vl==2||vl==4?fc24:fcOther;
-			ctx.font="bold "+sz[v]+"px arial";
-			ctx.fillText(vl,x0+50-w[v]/2,y0+50+h[v]/2);
+			drawText(b[vec[i].sx][vec[i].sy],x0,y0);
 		}
 		await sleep(16);
+		if(Id!=Top)return;
 	}
-	for(let cnt=0;cnt<=Mx;cnt++){
-		let p=2*Math.min(cnt+1,Mx-cnt);
+
+	for(let cnt=0;cnt<Mx;cnt++){
+		let p=cnt+1;
 		for(let i=0;i<4;i++)
 			for(let j=0;j<4;j++)if(flg[i][j]){
-				let x0=calc(j),y0=calc(i),v=b[i][j];
-				ctx.fillStyle=colors[v];
-				ctx.fillRect(x0-p,y0-p,100+2*p,100+2*p);
+				let x0=calc(j),y0=calc(i),v=a[i][j];
+				ctx.fillStyle=colors[Math.min(v,colors.length-1)];
+				if(flg[i][j]==1)
+					ctx.fillRect(x0-p,y0-p,100+2*p,100+2*p);
+				else ctx.fillRect(x0+50-10*p,y0+50-10*p,20*p,20*p);
 				let vl=1<<v;
 				ctx.fillStyle=vl==2||vl==4?fc24:fcOther;
 				ctx.font="bold "+sz[v]+"px arial";
-				ctx.fillText(vl,x0+50-w[v]/2,y0+50+h[v]/2);
+				if(flg[i][j]==1)ctx.fillText(vl,x0+50-w[v]/2,y0+50+h[v]/2);
 			}
 		await sleep(16);
+		if(Id!=Top)return;
 	}
 }
 
@@ -213,22 +226,11 @@ function draw(){
 	let ch=$("#score");
 	$("#scp").empty().append("Score: ").append(ch);
 	$("#score").html(tot);
-	
-	var canvas=$("canvas")[0];
-	var ctx=canvas.getContext("2d");
-	
+
+	let ctx=$("canvas")[0].getContext("2d");
 	ctx.fillStyle=bc;
 	ctx.fillRect(0,0,450,450);
 	for(let i=0;i<4;i++)
-		for(let j=0;j<4;j++){
-			let x0=calc(j),y0=calc(i);
-			ctx.fillStyle=colors[Math.min(a[i][j],colors.length-1)];
-			ctx.fillRect(x0,y0,100,100);
-			if(a[i][j]){
-				let vl=1<<a[i][j];
-				ctx.fillStyle=vl==2||vl==4?fc24:fcOther;
-				ctx.font="bold "+sz[a[i][j]]+"px arial";
-				ctx.fillText(vl,x0+50-w[a[i][j]]/2,y0+50+h[a[i][j]]/2);
-			}
-		}
+		for(let j=0;j<4;j++)
+			drawText(a[i][j],calc(j),calc(i));
 }
