@@ -517,6 +517,11 @@ pre code {
 .intro-header .page-heading {
   padding: 85px 0 55px;
   color: white;
+  text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
 }
 @media only screen and (min-width: 768px) {
   .intro-header .site-heading,

@@ -1,8 +1,8 @@
 ---
 layout:		post
-title:		Hello
-subtitle:	world
-date:		2019-11-16
+title:		Hello, world
+date:		2020-03-28
+postdate:	2019-11-16
 author:		wyj
 catalog:	true
 top:		true
@@ -49,7 +49,7 @@ $$ \Large\textrm{Hello, world!} $$
 
 ~~不久后发现bug太多了，主要是空行和过长的行的行号不能正确显示，我就把行号插件去掉了。~~
 
-Edit on 2020/03/04：现在又可以了！首先我参考了[这个](cd59f3293519887b70015a7cdad20444de50908c)来还原`prism.js`和`prism.css`文件，然后删掉了CSS里面`white-space: pre-wrap;`一条属性，就可以把错误的换行和空行消除了。
+Edit on 2020/03/04：现在又可以了！首先我参考了[这个](https://blog.csdn.net/daijiguo/article/details/79001325)来还原`prism.js`和`prism.css`文件，然后删掉了CSS里面`white-space: pre-wrap;`一条属性，就可以把错误的换行和空行消除了。
 
 ### [文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
 
@@ -61,4 +61,15 @@ Edit on 2020/03/04：现在又可以了！首先我参考了[这个](cd59f329351
 ```bash
 sudo apt install jekyll
 jekyll serve --watch --config _config.yml
+```
+
+### 博文修改时间排序
+
+由于我经常会“挖坟”，很多几年前的文章现在还在不停更新，大大增加了让人找到这些更新内容的难度。所以我打算按照修改时间排序文章。
+
+这个我完全没有参考过网上的任何实现，是自己魔改的。我添加了一个`postdate`属性，把`date`变成最后一次修改的时间。然后修改了一下index.html和_layouts/post.html，改成首页上只显示修改时间，在博文内部同时显示创建和修改的时间。
+
+就像之前的所有魔改一样，我保持了向后兼容性。这是通过使用Liquid的`default`过滤器做到的。具体来说，我把博文内部的显示改成了这样：
+```html
+{% raw %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.postdate | default: page.date | date: "%B %-d, %Y" }} {% if page.postdate %}/ Edited on {{ page.date | date: "%B %-d, %Y" }}{% endif %}{% endraw %}
 ```
