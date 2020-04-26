@@ -1,7 +1,7 @@
 ---
 layout:		post
 title:		Hello, world
-date:		2020-03-28
+date:		2020-04-26
 postdate:	2019-11-16
 author:		wyj
 catalog:	true
@@ -73,3 +73,7 @@ jekyll serve --watch --config _config.yml
 ```html
 {% raw %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.postdate | default: page.date | date: "%B %-d, %Y" }} {% if page.postdate %}/ Edited on {{ page.date | date: "%B %-d, %Y" }}{% endif %}{% endraw %}
 ```
+
+### 去除deprecated的用法
+
+自从升级到20.04之后发现很多Jekyll和Liquid的写法已经被弃用了。本地跑Jekyll时出现了一大堆的warning，比如说使用了`gems`而非`plugins`，Liquid的`if`语句里使用了多余的`{% raw %}{{}}{% endraw %}`等等，按照他的提示修改就可以了。甚至Jekyll自己的一些实现细节也被Ruby语言认为是弃用的，只需要按照[这篇文章](https://piechowski.io/post/last-arg-keyword-deprecated-ruby-2-7/)说的，加上几个`**`就可以修复了。
