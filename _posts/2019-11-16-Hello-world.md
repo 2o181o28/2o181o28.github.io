@@ -1,7 +1,7 @@
 ---
 layout:		post
 title:		Hello, world
-date:		2020-04-26
+date:		2020-05-01
 postdate:	2019-11-16
 author:		wyj
 catalog:	true
@@ -10,7 +10,7 @@ tags:
     - 博客搭建
 ---
 
->前人栽树，后人乘凉。fork自[qiubaiying.github.io](https://github.com/qiubaiying/qiubaiying.github.io)
+> 前人栽树，后人乘凉。fork自[qiubaiying.github.io](https://github.com/qiubaiying/qiubaiying.github.io)
 
 ```cpp
 //LaTeX测试
@@ -77,3 +77,7 @@ jekyll serve --watch --config _config.yml
 ### 去除deprecated的用法
 
 自从升级到20.04之后发现很多Jekyll和Liquid的写法已经被弃用了。本地跑Jekyll时出现了一大堆的warning，比如说使用了`gems`而非`plugins`，Liquid的`if`语句里使用了多余的`{% raw %}{{}}{% endraw %}`等等，按照他的提示修改就可以了。甚至Jekyll自己的一些实现细节也被Ruby语言认为是弃用的，只需要按照[这篇文章](https://piechowski.io/post/last-arg-keyword-deprecated-ruby-2-7/)说的，加上几个`**`就可以修复了。
+
+### [站点地图](http://www.independent-software.com/generating-a-sitemap-xml-with-jekyll-without-a-plugin.html)
+
+我参照这个链接里面的写法魔改了一下，增加了被置顶的博文的优先级。
