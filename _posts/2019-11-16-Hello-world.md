@@ -30,7 +30,7 @@ $$ \Large\textrm{Hello, world!} $$
 
 # 功能更新
 
-### [LaTeX渲染](https://lloyar.github.io/2018/10/08/mathjax-in-jekyll.html)
+#### [LaTeX渲染](https://lloyar.github.io/2018/10/08/mathjax-in-jekyll.html)
 
 上面那个LaTeX渲染是残废的，除非你[曾经优化过Chrome字体](https://www.luogu.com.cn/blog/ljf-cnyali/linux-zi-ti-xuan-ran-di-xiu-fu-yu-gai-shan)，字体会变得很丑，和别人的MathJax完全不一样。并且不支持使用`$ xxx $`。
 
@@ -41,7 +41,7 @@ $$ \Large\textrm{Hello, world!} $$
 
 然后就可以用正常的字体显示公式了，比如 $F(x)=x^2$。
 
-### [Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
+#### [Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
 
 这个是代码块的高亮+行号+复制。我目前选择了`c`,`c++`,`python`,`bash & shell`,`pascal`,`yaml`,`html`,`markdown`,`Latex`,`javascript`,`CSS`的高亮。
 
@@ -51,11 +51,11 @@ $$ \Large\textrm{Hello, world!} $$
 
 Edit on 2020/03/04：现在又可以了！首先我参考了[这个](https://blog.csdn.net/daijiguo/article/details/79001325)来还原`prism.js`和`prism.css`文件，然后删掉了CSS里面`white-space: pre-wrap;`一条属性，就可以把错误的换行和空行消除了。
 
-### [文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
+#### [文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
 
 这个实现相当丑陋，大概是把后面的页中的置顶抽出来扔到第一页，导致每一页的博文数量不一样。然而我不会用`sort`置顶（因为找不到post的变量名）。
 
-### [本地运行](http://github.tiankonguse.com/blog/2015/10/08/jekyll-run-in-local.html)
+#### [本地运行](http://github.tiankonguse.com/blog/2015/10/08/jekyll-run-in-local.html)
 
 完全不用管那么多，直接
 ```bash
@@ -63,7 +63,7 @@ sudo apt install jekyll
 jekyll serve --watch --config _config.yml
 ```
 
-### 博文修改时间排序
+#### 博文修改时间排序
 
 由于我经常会“挖坟”，很多几年前的文章现在还在不停更新，大大增加了让人找到这些更新内容的难度。所以我打算按照修改时间排序文章。
 
@@ -74,10 +74,10 @@ jekyll serve --watch --config _config.yml
 {% raw %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.postdate | default: page.date | date: "%B %-d, %Y" }} {% if page.postdate %}/ Edited on {{ page.date | date: "%B %-d, %Y" }}{% endif %}{% endraw %}
 ```
 
-### 去除deprecated的用法
+#### 去除deprecated的用法
 
 自从升级到20.04之后发现很多Jekyll和Liquid的写法已经被弃用了。本地跑Jekyll时出现了一大堆的warning，比如说使用了`gems`而非`plugins`，Liquid的`if`语句里使用了多余的`{% raw %}{{}}{% endraw %}`等等，按照他的提示修改就可以了。甚至Jekyll自己的一些实现细节也被Ruby语言认为是弃用的，只需要按照[这篇文章](https://piechowski.io/post/last-arg-keyword-deprecated-ruby-2-7/)说的，加上几个`**`就可以修复了。
 
-### [站点地图](http://www.independent-software.com/generating-a-sitemap-xml-with-jekyll-without-a-plugin.html)
+#### [站点地图](http://www.independent-software.com/generating-a-sitemap-xml-with-jekyll-without-a-plugin.html)
 
 我参照这个链接里面的写法魔改了一下，增加了被置顶的博文的优先级。
