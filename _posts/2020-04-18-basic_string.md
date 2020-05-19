@@ -13,7 +13,7 @@ tags:
 
 # 速度
 
-参考[n方过十万对比](https://2o181o28.github.io/2018/10/22/n%E6%96%B9%E8%BF%87%E5%8D%81%E4%B8%87%E5%AF%B9%E6%AF%94/)，可以看出`basic_string`以微弱优势快于`vector`。
+参考[n方过十万对比](/2018/10/22/n%E6%96%B9%E8%BF%87%E5%8D%81%E4%B8%87%E5%AF%B9%E6%AF%94/)，可以看出`basic_string`以微弱优势快于`vector`。
 
 # 语法糖
 
