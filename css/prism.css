@@ -1,5 +1,5 @@
-/* PrismJS 1.18.0
-https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+bash+c+cpp+latex+markdown+pascal+python+yaml&plugins=line-numbers+toolbar+copy-to-clipboard */
+/* PrismJS 1.20.0
+https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+bash+c+cpp+glsl+latex+llvm+makefile+markdown+pascal+python+yaml&plugins=line-numbers+toolbar+copy-to-clipboard */
 /**
  * prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)
@@ -169,7 +169,6 @@ pre[class*="language-"].line-numbers > code {
 }
 
 	.line-numbers-rows > span {
-		pointer-events: none;
 		display: block;
 		counter-increment: linenumber;
 	}
