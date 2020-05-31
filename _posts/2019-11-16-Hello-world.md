@@ -43,7 +43,7 @@ $$ \Large\textrm{Hello, world!} $$
 
 #### [Prism.js](https://blog.csdn.net/u013961139/article/details/78853544)
 
-这个是代码块的高亮+行号+复制。我选择的所有语言和插件支持，[都可在此处下载到](https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+bash+c+cpp+glsl+latex+llvm+makefile+markdown+pascal+python+yaml&plugins=line-numbers+toolbar+copy-to-clipboard)。
+这个是代码块的高亮+行号+复制。我选择的所有语言和插件支持，[都可在此处下载到](https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+bash+c+cpp+glsl+latex+llvm+makefile+markdown+pascal+python+rust+yaml&plugins=line-numbers+toolbar+copy-to-clipboard)。包括C、C++、Makefile、Rust、Pascal、Python、Bash、JavaScript、LaTeX、Markdown、HTML、CSS、Yaml、LLVM IR、GLSL等等。
 
 最开始由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```cpp/g' {} \;`来批量文本替换。后来我发现这个`clike`高亮的内容太少了，不得不加上`c`和`c++`。
 
