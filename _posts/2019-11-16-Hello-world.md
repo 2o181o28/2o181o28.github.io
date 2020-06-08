@@ -1,7 +1,7 @@
 ---
 layout:		post
 title:		Hello, world
-date:		2020-05-01
+date:		2020-06-08
 postdate:	2019-11-16
 author:		wyj
 catalog:	true
@@ -81,3 +81,7 @@ jekyll serve --watch --config _config.yml
 #### [站点地图](http://www.independent-software.com/generating-a-sitemap-xml-with-jekyll-without-a-plugin.html)
 
 我参照这个链接里面的写法魔改了一下，增加了被置顶的博文的优先级。
+
+#### [文章加密](/2020/06/08/%E5%8A%A0%E5%AF%86%E6%B5%8B%E8%AF%95/)
+
+参考了[集训队大爷yhx的设置](https://yhx-12243.github.io/OI-transit/)，使用SHA1判断密码是否正确，如果密码正确的话用其制作出密钥解密DES。基本上可以保证无法破解。并且中文这样做之后会变成乱码，所以我额外加上了一个`encodeURIComponent`。
