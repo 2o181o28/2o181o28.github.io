@@ -84,4 +84,4 @@ jekyll serve --watch --config _config.yml
 
 #### [文章加密](/2020/06/08/%E5%8A%A0%E5%AF%86%E6%B5%8B%E8%AF%95/)
 
-参考了[集训队大爷yhx的设置](https://yhx-12243.github.io/OI-transit/)，使用SHA1判断密码是否正确，如果密码正确的话用其制作出密钥解密DES。基本上可以保证无法破解。并且中文这样做之后会变成乱码，所以我额外加上了一个`encodeURIComponent`。
+参考了[集训队大爷yhx的设置](https://yhx-12243.github.io/OI-transit/)，使用MD5判断密码是否正确（这只是为了用户体验），如果密码正确的话用其制作出密钥解密DES。基本上可以保证无法被破解。并且中文这样做之后会变成乱码，所以我额外加上了一个`encodeURIComponent`。
