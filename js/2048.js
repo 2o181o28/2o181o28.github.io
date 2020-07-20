@@ -1,6 +1,6 @@
-var a=new Array(4),b=new Array(4),id=new Array(4),flg=new Array(4);
-var w=new Array(30),h=new Array(30),sz=new Array(30);
-var tot=0,fin=0,Top=0;
+let a=new Array(4),b=new Array(4),id=new Array(4),flg=new Array(4);
+let w=new Array(30),h=new Array(30),sz=new Array(30);
+let tot=0,fin=0,Top=0;
 
 const colors=["#cdc1b2","#eee4d8","#ece2c5","#f8b172","#ff8f5a","#ff6e57","#ff432a","#ead86a",
 	"#ead659","#ebd244","#ebd02e","#ebcd04","#3e3e35"];
@@ -118,8 +118,7 @@ function Init(){
 		await handleKey(key);
 	};
 
-	var canvas=$("canvas")[0];
-	var hammer=new Hammer(canvas);
+	let canvas=$("canvas")[0],hammer=new Hammer(canvas);
 	hammer.get('swipe').set({direction: Hammer.DIRECTION_ALL});
 	hammer.on("swipe",async e=>{
 		let sgnX=e.deltaX>0,sgnY=e.deltaY>0,key=-1;
@@ -129,7 +128,7 @@ function Init(){
 		await handleKey(key);
 	});
 
-	var ctx=canvas.getContext("2d");
+	let ctx=canvas.getContext("2d");
 	for(let i=1;i<30;i++){
 		let vl=1<<i;
 		for(let x=60;x>=20;x--){
