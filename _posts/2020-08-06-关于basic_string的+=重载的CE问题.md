@@ -55,7 +55,7 @@ basic_string( const T* s,
 
 反正下载一个NOI Linux的ISO是飞快的，可以现场测试一下。毕竟安装一个系统还是太慢了，我等不及，就用VirtualBox新建个虚拟机，导入ISO，直接在LiveCD中看了。（我之前验证`-fsanitize=undefined`的等价替代品时也是这么做的，可惜曾经下载的ISO已经随我的HDD逝去了）。果然，这个构造函数**没有判`__cplusplus >= 201103L`**，没有加上C++11的require。归根结底，还是C++11支持不完全导致的锅。
 
-![](/img/20200806/1.png)
+![](/img/20200806/1.jpg)
 
 总结一下CE的原因：
 
@@ -64,3 +64,9 @@ basic_string( const T* s,
 - 模板替换全部失败了，除了`template<class it> basic_string(it first,it last)`这个构造函数，令`it=int`替换成功
 - 由于C++11支持不完全，没有在模板参数中加入`_RequireInputIter`，否则`_RequireInputIter<int>`会模板实例化失败（由于`enable_if`不成立），令此次替换失败
 - 然而替换全都成功了，所以`{x,0}`就有了两个可行的解释方法，导致“歧义”，垃圾编译器手足无措，只好CE了
+
+----
+
+$$\Large{\downarrow\textrm{制作过程}\downarrow}$$
+
+![](/img/20200806/1.png)
