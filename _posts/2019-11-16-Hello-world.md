@@ -1,7 +1,7 @@
 ---
 layout:		post
 title:		Hello, world
-date:		2020-06-08
+date:		2020-08-10
 postdate:	2019-11-16
 author:		wyj
 catalog:	true
@@ -9,6 +9,10 @@ top:		true
 tags:
     - 博客搭建
 ---
+
+{:j:.Z .language-js}
+{:css:.Z .language-css}
+{:b:.Z .language-bash}
 
 > 前人栽树，后人乘凉。fork自[qiubaiying.github.io](https://github.com/qiubaiying/qiubaiying.github.io)
 
@@ -45,11 +49,11 @@ $$ \Large\textrm{Hello, world!} $$
 
 这个是代码块的高亮+行号+复制。我选择的所有语言和插件支持，[都可在此处下载到](https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+bash+c+cpp+glsl+latex+llvm+makefile+markdown+pascal+python+rust+yaml&plugins=line-numbers+toolbar+copy-to-clipboard)。包括C、C++、Makefile、Rust、Pascal、Python、Bash、JavaScript、LaTeX、Markdown、HTML、CSS、Yaml、LLVM IR、GLSL等等。
 
-最开始由于没有安装`c`或者`cpp`，我用了两个`find -type f -exec sed -i 's/```x$/```cpp/g' {} \;`来批量文本替换。后来我发现这个`clike`高亮的内容太少了，不得不加上`c`和`c++`。
+最开始由于没有安装`c`或者`cpp`，我用了两个````find -type f -exec sed -i 's/```x$/```cpp/g' {} \;````{:b}来批量文本替换。后来我发现这个`clike`高亮的内容太少了，不得不加上`c`和`c++`。
 
 ~~不久后发现bug太多了，主要是空行和过长的行的行号不能正确显示，我就把行号插件去掉了。~~
 
-Edit on 2020/03/04：现在又可以了！首先我参考了[这个](https://blog.csdn.net/daijiguo/article/details/79001325)来还原`prism.js`和`prism.css`文件，然后删掉了CSS里面`white-space: pre-wrap;`一条属性，就可以把错误的换行和空行消除了。
+Edit on 2020/03/04：现在又可以了！首先我参考了[这个](https://blog.csdn.net/daijiguo/article/details/79001325)来还原`prism.js`和`prism.css`文件，然后删掉了CSS里面`white-space: pre-wrap;`{:css}一条属性，就可以把错误的换行和空行消除了。
 
 #### [文章置顶](https://too.pub/Jekyll-Sticky-Posts.html)
 
@@ -84,4 +88,16 @@ jekyll serve --watch --config _config.yml
 
 #### [文章加密](/2020/06/08/%E5%8A%A0%E5%AF%86%E6%B5%8B%E8%AF%95/)
 
-参考了[集训队大爷yhx的设置](https://yhx-12243.github.io/OI-transit/)，使用MD5判断密码是否正确（这只是为了用户体验），如果密码正确的话用其制作出密钥解密DES。基本上可以保证无法被破解。并且中文这样做之后会变成乱码，所以我额外加上了一个`encodeURIComponent`。
+参考了[集训队大爷yhx的设置](https://yhx-12243.github.io/OI-transit/)，使用MD5判断密码是否正确（这只是为了用户体验），如果密码正确的话用其制作出密钥解密DES。基本上可以保证无法被破解。并且中文这样做之后会变成乱码，所以我额外加上了一个`encodeURIComponent`{:j}。
+
+#### 内联代码高亮
+
+直接使用kramdown的扩展语法就行了，比如说把`` `int i=0;` ``改成`` `int i=0;`{:.language-cpp}``。如果嫌这个class太长了的话，可以先定义`{:c: .language-cpp}`（每篇文章只要定义一次），然后用`` `int i=0;`{:c}``就行了。我修改了所有新博文的内联代码，让它们具有了高亮。从洛谷博客上搬过来的旧文章就懒得改了。
+
+本地运行已经完美了，但！是！github pages上面死活显示不出来高亮，还是`language-plaintext`。不知道是出了什么奇怪的bug，**我在google上怎么搜都搜不到该如何解决**。只好自己瞎摸索了。发现我本地不会给所有的`<code>`标签添加`language-plaintext`这个class（包括没有添加高亮的内联代码），只有服务器上会。
+
+我的`{:.language-rust}`被覆盖了。于是我尝试显式地指定class，看看可不可以覆盖掉它的；为了检测到底是我指定class失败了，还是覆盖失败了，我同时添加了几个class：`{: class="fuck shit language-rust"}`。发现现在我的class就变成了与它的共存了：元素属性变成`fuck shit language-rust language-plaintext`，覆盖还是失败的。
+
+于是我直接在_layouts/post.html中加上一行jQuery把它的class送上西天：`$(()=>$("*").removeClass("language-plaintext"));`{:j}现在只有我说了算了，就终于有了正确的高亮。奇怪的是，我必须多添加一个像`fuck shit`这样的没用的class，否则它不理我，会把我孤零零的`language-rust`直接吞掉同归于尽。这个情况更加让我倾向于认为这是个github的bug。
+
+所以把`{:c: .language-cpp}`改成`{:c:.Z .language-cpp}`就可以照常使用了。

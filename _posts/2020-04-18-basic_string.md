@@ -9,7 +9,9 @@ tags:
     - C++
 ---
 
-我一年多之前就开始用`basic_string`替代`vector`了。现在我打算详细地讲解一下`std::basic_string<T>`相比`std::vector<T>`的优越之处。
+{:c:.Z .language-cpp}
+
+我一年多之前就开始用`basic_string`替代`vector`了。现在我打算详细地讲解一下`std::basic_string<T>`{:c}相比`std::vector<T>`{:c}的优越之处。
 
 # 速度
 
