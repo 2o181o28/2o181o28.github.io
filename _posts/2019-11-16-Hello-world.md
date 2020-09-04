@@ -1,7 +1,7 @@
 ---
 layout:		post
 title:		Hello, world
-date:		2020-08-10
+date:		2020-09-04
 postdate:	2019-11-16
 author:		wyj
 catalog:	true
@@ -24,7 +24,7 @@ $$ \Large\textrm{Hello, world!} $$
 
 # 简介
 
-这是sczOIer wyj的个人博客。~~暂时没有置顶功能。~~现在有了。
+这是来自scz 2021届的前OIer wyj的个人博客。
 
 会从我的[洛谷博客](https://www.luogu.org/blog/474D/)上搬迁**除题解以外的**博文。
 
