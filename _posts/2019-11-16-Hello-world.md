@@ -1,8 +1,8 @@
 ---
 layout:		post
 title:		Hello, world
-date:		2020-09-04
-postdate:	2019-11-16
+editdate:	2020-09-25
+date:		2019-11-16
 author:		wyj
 catalog:	true
 top:		true
@@ -67,15 +67,13 @@ sudo apt install jekyll
 jekyll serve --watch --config _config.yml
 ```
 
-#### 博文修改时间排序
+#### 博文显示修改时间
 
-由于我经常会“挖坟”，很多几年前的文章现在还在不停更新，大大增加了让人找到这些更新内容的难度。所以我打算按照修改时间排序文章。
+这个我完全没有参考过网上的任何实现，是自己魔改的。我添加了一个`editdate`属性。然后修改了一下index.html和_layouts/post.html，改成首页上只显示修改时间，在博文内部同时显示创建和修改的时间。
 
-这个我完全没有参考过网上的任何实现，是自己魔改的。我添加了一个`postdate`属性，把`date`变成最后一次修改的时间。然后修改了一下index.html和_layouts/post.html，改成首页上只显示修改时间，在博文内部同时显示创建和修改的时间。
-
-就像之前的所有魔改一样，我保持了向后兼容性。这是通过使用Liquid的`default`过滤器做到的。具体来说，我把博文内部的显示改成了这样：
+就像之前的所有魔改一样，我保持了向后兼容性。具体来说，我把博文内部的显示改成了这样：
 ```html
-{% raw %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.postdate | default: page.date | date: "%B %-d, %Y" }} {% if page.postdate %}/ Edited on {{ page.date | date: "%B %-d, %Y" }}{% endif %}{% endraw %}
+{% raw %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }} {% if page.editdate %}/ Edited on {{ page.editdate | date: "%B %-d, %Y" }}{% endif %}{% endraw %}
 ```
 
 #### 去除deprecated的用法
