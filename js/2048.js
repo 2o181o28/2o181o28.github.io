@@ -97,7 +97,6 @@ function load(){
 
 async function handleKey(key){
 	if(key<0)return;
-	window.scrollTo(0,400);
 	for(let i=0;i<4;i++)b[i]=new Int8Array(a[i]);
 	let mv=move(key);
 	await chkOver();if(fin)return;
@@ -142,7 +141,6 @@ function Init(){
 		}
 	}
 
-	window.scrollTo(0,400);
 	if(("arr" in localStorage) && ("scr" in localStorage))
 		load();
 	else reset();
