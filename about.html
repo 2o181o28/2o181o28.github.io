@@ -19,62 +19,13 @@ description: "人的一切痛苦都是源于对自己无能的愤怒"
     <li>C++20、python3、ECMAScript 6、bash、Rust用户</li>
     <li>AFO，文化课选手</li>
     <li>对网站搭建几乎无知，熟悉JS、CSS、HTML的复制和粘贴</li>
-    <li>擅长Qt、Gtk、甚至Xlib的Hello world</li>
+    <li>熟悉Gedit、Vim、VS Code的打开和关闭</li>
     <li>古典自由主义支持者</li>
     <li>Isaac<del>云玩家</del></li>
     </ul>
-    <img src="https://cfrating.ihcr.top/?user=__JuRuo" />
     <h5>Talks</h5>
 
 </div>
-
-<!-- English Version -->
-<!-- <div class="en post-container">
-
-    <p>N/A</p>
-
-</div> -->
-
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    // get nodes
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    var $select = document.querySelector("select");
-
-    // bind hashchange event
-    window.addEventListener('hashchange', _render);
-
-    // handle render
-    function _render(){
-        var _hash = window.location.hash;
-        // en
-        if(_hash == "#en"){
-            $select.selectedIndex = 1;
-            $en.style.display = "block";
-            $zh.style.display = "none";
-        // zh by default
-        }else{
-            // not trigger onChange, otherwise cause a loop call.
-            $select.selectedIndex = 0;
-            $zh.style.display = "block";
-            $en.style.display = "none";
-        }
-    }
-
-    // handle select change
-    function onLanChange(index){
-        if(index == 0){
-            window.location.hash = "#zh"
-        }else{
-            window.location.hash = "#en"
-        }
-    }
-
-    // init
-    _render();
-</script>
-
 
 <!-- Gitalk 评论 start  -->
 {% if site.gitalk.enable %}
