@@ -1,0 +1,37 @@
+---
+layout: default
+title: snz's Gomoku AI
+hidden: true
+---
+
+<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading" id="tag-heading">
+                    <h1>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
+                    <span class="subheading">{{ page.description }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script src="/js/gomoku.js"></script>
+<script>
+let send;
+Module.onRuntimeInitialized=()=>{
+	send=Module.cwrap("handler",null,["string"]);
+};
+
+function submit(){
+	send($("#cmd").val());
+	$("#cmd").val("");
+}
+$(()=>{$("#cmd")[0].onkeydown=e=>{
+	if(e.which==13)submit();
+}});
+</script>
+
+<input type="text" id="cmd" />
+<button onclick="submit()">Submit</button>
