@@ -17,15 +17,17 @@ hidden: true
     </div>
 </header>
 
-<script src="/js/gomoku.js"></script>
 <script>
-let send;
-Module.onRuntimeInitialized=()=>{
-	send=Module.cwrap("handler",null,["string"]);
-};
+let worker=new Worker("/js/gomoku/worker.js");
+let is_busy=false;
+worker.onmessage=e=>{is_busy=false;};
 
 function submit(){
-	send($("#cmd").val());
+	let s=$("#cmd").val();
+	if(is_busy && s!=="END")return;
+	console.log("Calling");
+	if(s!=="END")is_busy=true;
+	worker.postMessage(s);
 	$("#cmd").val("");
 }
 $(()=>{$("#cmd")[0].onkeydown=e=>{
