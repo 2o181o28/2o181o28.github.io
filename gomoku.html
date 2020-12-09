@@ -24,9 +24,14 @@ worker.onmessage=e=>{is_busy=false;};
 
 function submit(){
 	let s=$("#cmd").val();
-	if(is_busy && s!=="END")return;
-	console.log("Calling");
-	if(s!=="END")is_busy=true;
+	if(s==="END"){
+		worker.terminate();
+		worker=new Worker("/js/gomoku/worker.js");
+		$("#cmd").val("");is_busy=false;
+		return;
+	}
+	if(is_busy)return;
+	is_busy=true;
 	worker.postMessage(s);
 	$("#cmd").val("");
 }

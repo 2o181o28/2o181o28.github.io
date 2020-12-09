@@ -23,7 +23,7 @@ template<typename tn> void read(tn &a){
 const ll mod=1e17l+3;
 int LEN,mx_dep=9,nod_cnt,time_lim=1e4;
 clk::time_point stt;
-bool time_out;//atomic_int cnt;
+bool time_out;
 unordered_map<ll,pair<int,int>> mp;
 //uniform_real_distribution<double> U(-.1,.1);
 //default_random_engine E(clock()+time(0));
@@ -267,17 +267,10 @@ pair<int,int> Search_for_next(game G,double*ret=NULL){
 	}
 	if(ret)*ret=oval;return onxt;
 }
-char buf[1<<10];
 extern"C" void handler(char *buf){
-//	puts("Entered C++ Code");
 	char t[100];sscanf(buf," %s",t);string s=t;
-/*	if(s=="END"){
-		time_out=true;
-		while(cnt);
-		time_out=false;
-		return;
-	}
-	cnt++;*/
+	printf("Entered C++ Code cmd=%s\n",buf);
+
 	if(s=="TURN"){
 		int x=-1,y=-1;sscanf(buf," %*s %d,%d",&x,&y);
 		x++,y++;
@@ -316,5 +309,4 @@ extern"C" void handler(char *buf){
 		puts(R"(name="SNZAKIOI", version="1.0", author="snz")");
 		fflush(stdout);
 	}
-//	cnt--;
 }
