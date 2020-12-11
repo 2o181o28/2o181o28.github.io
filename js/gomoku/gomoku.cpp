@@ -23,7 +23,7 @@ template<typename tn> void read(tn &a){
 const ll mod=1e17l+3;
 int LEN,mx_dep=9,nod_cnt,time_lim=1e4;
 clk::time_point stt;
-bool time_out;
+bool time_out,is_board;
 unordered_map<ll,pair<int,int>> mp;
 //uniform_real_distribution<double> U(-.1,.1);
 //default_random_engine E(clock()+time(0));
@@ -271,6 +271,20 @@ extern"C" void handler(char *buf){
 	char t[100];sscanf(buf," %s",t);string s=t;
 	printf("Entered C++ Code cmd=%s\n",buf);
 
+	if(is_board){
+		if(s=="DONE"){
+			is_board=false;G.tag=0;
+			int nx,ny;double vl;tie(nx,ny)=Search_for_next(G,&vl);
+			printf("%d,%d\n",nx-1,ny-1);
+			printf("MESSAGE Depth=%d Node_cnt=%d Evaluation=%.lg\n",mx_dep-2,nod_cnt,vl);
+			fflush(stdout);
+			G.set(nx,ny);
+		}else{
+			int x,y,k;sscanf(buf,"%d,%d,%d",&x,&y,&k);
+			G.set_impl(x+1,y+1,k-1);
+		}
+		return;
+	}
 	if(s=="TURN"){
 		int x=-1,y=-1;sscanf(buf," %*s %d,%d",&x,&y);
 		x++,y++;
@@ -285,20 +299,7 @@ extern"C" void handler(char *buf){
 		printf("%d,%d\n",x-1,y-1);fflush(stdout);
 		G.set(x,y);
 	}else if(s=="BOARD"){
-		G=game();
-		static char buf1[1<<10];
-		fgets(buf1,sizeof(buf1),stdin);
-		while(strncmp(buf1,"DONE",4)){
-			int x,y,k;sscanf(buf1,"%d,%d,%d",&x,&y,&k);
-			G.set_impl(x+1,y+1,k-1);
-			fgets(buf1,sizeof(buf1),stdin);
-		}
-		G.tag=0;
-		int nx,ny;double vl;tie(nx,ny)=Search_for_next(G,&vl);
-		printf("%d,%d\n",nx-1,ny-1);
-		printf("MESSAGE Depth=%d Node_cnt=%d Evaluation=%.lg\n",mx_dep-2,nod_cnt,vl);
-		fflush(stdout);
-		G.set(nx,ny);
+		G=game();is_board=true;
 	}else if(s=="START"){
 		int r=-1;sscanf(buf," %*s %d",&r);
 		LEN=r;
