@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Gomoku
-hidden: true
 ---
 
 <header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
@@ -20,11 +19,18 @@ hidden: true
 <script src="/js/gomoku/main.js"></script>
 
 <style>
-input{
+input[type=number]{
 	border:0;
 	outline:0;
 	background:transparent;
 	border-bottom:1px solid black;
+}
+button{
+	height:35px;
+	font:bold 16px arial;
+	border:none;
+	width:20%;
+	background-color:#EEEEEE;
 }
 #mainDiv{
 	width:min(800px,100%);
@@ -32,14 +38,15 @@ input{
 }
 #lpart{
 	float:left;
-	width:60%;
-	height:min(calc(800px*0.6),60vw);
+	width:65%;
+	height:min(calc(800px*0.65),60vw);
 }
 #rpart{
 	float:right;
+	position:relative;
 	padding-left:5%;
-	width:40%;
-	height:min(calc(800px*0.6),60vw);
+	width:35%;
+	height:min(calc(800px*0.65),60vw);
 }
 </style>
 
@@ -49,10 +56,10 @@ input{
 	</div>
 	<div id="rpart">
 		<label>Board size: </label>
-		<input type="number" style="width:15%" id="len" />
+		<input type="number" style="width:20%" id="len" />
 		<br>
 		<label>Time limit per move: </label>
-		<input type="number" style="width:15%" id="timeout" />
+		<input type="number" style="width:20%" id="timeout" />
 		<label>s</label>
 		<br>
 		<label>Skin: </label>
@@ -70,16 +77,15 @@ input{
 			<input type="radio" name="game_type" value="no_ai">
 			<label>Human vs human</label><br>
 		</div>
-		<div style="margin-top:10px;text-align:center">
-			<button id="apply" onclick="apply()">Apply</button>
-			<button id="restart" onclick="new_game()">New game</button>
-		</div>
-		<br>
-		<div style="text-align:center">
-			<button id="backward_to_begin">&#x25C2;&#x25C2;</button>
-			<button id="backward">&#x25C4;</button>
-			<button id="forward">&#x25BA;</button>
-			<button id="forward_to_end">&#x25B8;&#x25B8;</button>
+		<div id="btg" style="margin-top:20px;text-align:center">
+			<button onclick="apply()" style="width:70%;background-color:#00E676">Apply changes</button>
+			<br>
+			<button style="margin-top:10px;width:70%;background-color:#90CAF9" onclick="new_game()">New game</button>
+			<br>
+			<button style="margin-top:10px" onclick="full_back()">&#x25C2;&#x25C2;</button>
+			<button onclick="back()">&#x25C4;</button>
+			<button onclick="forward()">&#x25BA;</button>
+			<button onclick="full_forward()">&#x25B8;&#x25B8;</button>
 		</div>
 	</div>
 	<div style="display:block"></div>

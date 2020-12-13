@@ -7,7 +7,11 @@ layout: null
   {% for post in site.posts %}
     <url>
       <loc>{{ site.url }}{{ post.url }}</loc>
+      {% if post.editdate %}
+      <lastmod>{{ post.editdate | date_to_xmlschema }}</lastmod>
+	  {% else %}
       <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+      {% endif %}
       <changefreq>monthly</changefreq>
       <priority>{% if post.top %}0.9{% else %}0.5{% endif %}</priority>
     </url>

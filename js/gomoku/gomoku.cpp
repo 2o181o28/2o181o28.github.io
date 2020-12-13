@@ -1,5 +1,5 @@
 //. ~/git/emsdk/emsdk_env.sh --build=Release
-//em++ gomoku.cpp -s ALLOW_MEMORY_GROWTH=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['cwrap','ccall']" -s "EXPORTED_FUNCTIONS=['_handler']" -o gomoku.js -std=c++20 -O3
+//em++ gomoku.cpp -s ALLOW_MEMORY_GROWTH=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['cwrap','ccall']" -s "EXPORTED_FUNCTIONS=['_handler']" -o gomoku.js -std=c++20 -O3 -Wall -Wextra -Wno-shift-op-parentheses
 #include<chrono>
 #include<cstring>
 #include<algorithm>
@@ -240,7 +240,7 @@ pair<int,int> Search_for_next(game G,double*ret=NULL){
 		return {LEN+1>>1,LEN+1>>1};
 	}
 	int lim=limits[0];
-	if(v.size()>lim)v.resize(lim);
+	if((int)v.size()>lim)v.resize(lim);
 	pair<int,int> onxt;double oval=-1e200;
 	static double ev[21][21];
 	for(mx_dep=3;mx_dep<=17;mx_dep+=2){
@@ -263,19 +263,20 @@ pair<int,int> Search_for_next(game G,double*ret=NULL){
 			return ev[a.first][a.second]>ev[b.first][b.second];
 		});
 		lim=ceil(lim*0.9);
-		if(v.size()>lim)v.resize(lim);
+		if((int)v.size()>lim)v.resize(lim);
 	}
 	if(ret)*ret=oval;return onxt;
 }
-extern"C" void handler(char *buf){
+extern"C" int handler(char *buf){
+	int ret=-1;
 	char t[100];sscanf(buf," %s",t);string s=t;
-	printf("Entered C++ Code cmd=%s\n",buf);
+//	printf("Entered C++ Code cmd=%s\n",buf);
 
 	if(is_board){
 		if(s=="DONE"){
 			is_board=false;G.tag=0;
 			int nx,ny;double vl;tie(nx,ny)=Search_for_next(G,&vl);
-			printf("%d,%d\n",nx-1,ny-1);
+			printf("%d,%d\n",nx-1,ny-1);ret=ny-1<<16|nx-1;
 			printf("MESSAGE Depth=%d Node_cnt=%d Evaluation=%.lg\n",mx_dep-2,nod_cnt,vl);
 			fflush(stdout);
 			G.set(nx,ny);
@@ -283,21 +284,21 @@ extern"C" void handler(char *buf){
 			int x,y,k;sscanf(buf,"%d,%d,%d",&x,&y,&k);
 			G.set_impl(x+1,y+1,k-1);
 		}
-		return;
+		return ret;
 	}
 	if(s=="TURN"){
 		int x=-1,y=-1;sscanf(buf," %*s %d,%d",&x,&y);
 		x++,y++;
 		G.set(x,y);
 		int nx,ny;double vl;tie(nx,ny)=Search_for_next(G,&vl);
-		printf("%d,%d\n",nx-1,ny-1);
+		printf("%d,%d\n",nx-1,ny-1);ret=ny-1<<16|nx-1;
 		printf("MESSAGE Depth=%d Node_cnt=%d Evaluation=%.lg\n",mx_dep-2,nod_cnt,vl);
 		fflush(stdout);
 		G.set(nx,ny);
 	}else if(s=="BEGIN"){
 		G=game();int x,y;tie(x,y)=Search_for_next(G);
 		printf("%d,%d\n",x-1,y-1);fflush(stdout);
-		G.set(x,y);
+		G.set(x,y);ret=y-1<<16|x-1;
 	}else if(s=="BOARD"){
 		G=game();is_board=true;
 	}else if(s=="START"){
@@ -310,4 +311,5 @@ extern"C" void handler(char *buf){
 		puts(R"(name="SNZAKIOI", version="1.0", author="snz")");
 		fflush(stdout);
 	}
+	return ret;
 }
