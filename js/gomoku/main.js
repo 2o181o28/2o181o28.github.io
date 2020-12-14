@@ -2,6 +2,11 @@ let worker,is_busy,need_done=false,is_fin=false,frozen=false;
 let len=15,skin_path="/img/gomoku/HGarden.png",timeout=10000,nowX=-1,nowY=-1,game_type=1;
 let skin=new Image(),board=new Array(len),line_rgba,his=new Array(),pos=-1;
 
+function busy(vl){
+	is_busy=vl;
+	if(vl)$("#busy").show();else $("#busy").hide();
+}
+
 function current_player(){
 	let cntw=0,cntb=0;
 	for(let i=0;i<len;i++)
@@ -79,15 +84,15 @@ async function load_skin(path){
 async function init_worker(){
 	if(worker && typeof worker.terminate==="function")worker.terminate();
 	worker=new Worker("/js/gomoku/worker.js");
-	is_busy=true;need_done=false;
+	busy(true);need_done=false;
 	let p=new Promise(res=>{
 		worker.onmessage=async e=>{
 			if(typeof e.data==="number" && e.data>=0){
-				is_busy=false;
+				busy(false);
 				play(e.data&65535,e.data>>16);
 				await draw();
 			}
-			if(typeof e.data==="string")is_busy=false;
+			if(typeof e.data==="string")busy(false);
 			res();
 		};
 	});
@@ -189,7 +194,7 @@ async function new_game(){
 		worker.postMessage(`START ${len}`);
 		worker.postMessage(`INFO timeout_turn ${timeout}`);
 		if(game_type===0){
-			is_busy=true;
+			busy(true);
 			worker.postMessage("BEGIN");
 		}
 	}
@@ -206,7 +211,7 @@ async function restart_worker(){
 				worker.postMessage(`${i},${j},${board[i][j]===game_type+1?1:2}`);
 			}
 		if(current_player()===game_type+1){
-			is_busy=true;
+			busy(true);
 			worker.postMessage("DONE");
 		}else need_done=true;
 	}
@@ -253,7 +258,7 @@ async function Init(){
 		}
 		play(x,y);
 		if(game_type!==2&&!is_fin){
-			is_busy=true;
+			busy(true);
 			if(need_done){
 				worker.postMessage(`${x},${y},2`);
 				worker.postMessage("DONE");
