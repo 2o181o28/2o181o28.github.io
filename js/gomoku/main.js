@@ -115,7 +115,7 @@ async function draw(){
 }
 
 async function reload(){
-	if(is_busy)worker.terminate();
+	if(is_busy){worker.terminate();busy(false);is_busy=true;}
 	({nowX,nowY}=his[pos]);
 	decode(his[pos].str);
 	localStorage.nowX=nowX;
@@ -189,15 +189,7 @@ async function new_game(){
 	localStorage.game_type=game_type;
 	his=new Array();pos=-1;
 	await draw();
-	if(game_type!==2){
-		if(is_busy||need_done||!worker)await init_worker();
-		worker.postMessage(`START ${len}`);
-		worker.postMessage(`INFO timeout_turn ${timeout}`);
-		if(game_type===0){
-			busy(true);
-			worker.postMessage("BEGIN");
-		}
-	}
+	await restart_worker();
 }
 
 async function restart_worker(){
