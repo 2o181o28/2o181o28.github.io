@@ -1,4 +1,4 @@
-let worker,is_busy,need_done=false,is_fin=false,frozen=false;
+let worker,is_busy=true,need_done=false,is_fin=false,frozen=false;
 let len=15,skin_path="/img/gomoku/HGarden.png",timeout=10000,nowX=-1,nowY=-1,game_type=1;
 let skin=new Image(),board=new Array(len),line_rgba,his=new Array(),pos=-1;
 
@@ -171,11 +171,8 @@ async function apply(){
 			alert(`Invalid time limit: ${inp_timeout}s`);
 			return;
 		}
-		if(is_busy){
-			alert("Sorry, you can only modify the time limit when the AI is not thinking. Please try again later");
-			return;
-		}
 		localStorage.timeout=timeout=new_timeout;
+		await restart_worker();
 		worker.postMessage(`INFO timeout_turn ${new_timeout}`);
 	}
 }
@@ -194,7 +191,7 @@ async function new_game(){
 
 async function restart_worker(){
 	if(game_type!==2&&!is_fin){
-		if(is_busy||need_done||!worker)await init_worker();
+		if(is_busy||need_done||frozen||!worker)await init_worker();
 		worker.postMessage(`START ${len}`);
 		worker.postMessage(`INFO timeout_turn ${timeout}`);
 		worker.postMessage("BOARD");
