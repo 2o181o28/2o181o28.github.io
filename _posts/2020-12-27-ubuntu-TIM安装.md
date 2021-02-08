@@ -2,6 +2,7 @@
 layout:		post
 title:		新版deepin TIM等软件在Ubuntu上的安装办法
 date:		2020-12-27
+editdate:	2021-02-08
 author:		wyj
 catalog:	true
 tags:
@@ -14,21 +15,19 @@ tags:
 
 # 下载方法
 
-我在网上找了半天，发现除了deepin自己的官方商店之外，还是有民间的希望存在的：[星火应用商店](https://www.spark-app.store/)。这个商店是开源的，所以大可不必怀疑安全性。但是我仍然不想安装一个崭新的软件，并且也对它的有效性非常怀疑，就在虚拟机里进行了一次试验。
-
-如果你想要在一个非deepin的Debian系操作系统上安装这个商店，你会需要下载一个deb和一个zip：zip里是依赖包。把zip解压之后，跑一个`sudo apt install ./*.deb`{:b}就可以方便快捷地安装全部依赖包。然后就可以装商店本身了。
-
-安装的过程中，你会需要在软件源里加入一个`.top`网址作为仓库。所以理论上来讲，你完全不需要装这个商店，只需要把这个网址加入`sources.list`就够了，然而我不知道公钥（懒得找了），就算加入了网址，没有公钥的话apt也会拒绝用它来更新。所以我完整地装完了这个商店，也算是支持下国产软件。
-
-然后自然是跑`sudo apt update`{:b}。但是**千万不要手痒！！！！千万不要习惯性地`apt upgrade`{:b}！！！！**这个软件源会把你自己装的electron-ssr和洛雪音乐助手覆盖掉，而且它装的electron-ssr不能正常使用！如果你一不小心upgrade了，就只能手动把那些软件重装一遍了！
-
-安装命令：
+**在root权限下**执行以下的命令:
 ```bash
-sudo apt install com.qq.tim.spark
+echo "deb [by-hash=force] https://sucdn.jerrywang.top / " >> /etc/apt/sources.list
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E41D354A29A440C
+apt update
+apt install com.qq.tim.spark 
 ```
-下载速度很慢，并且由于是国内的网站，挂代理是不能加速的，请耐心等待。装完之后切记一定要把这个`.top`的仓库从源里删掉然后再`apt update`{:b}一遍，否则你这辈子就别想再跑`apt upgrade`{:b}了。
-
-然后我意识到这个商店是真的卵用没有，就把它卸了。
+当然你可以卸磨杀驴，在安装完成之后就把这个奇奇怪怪的源删掉：
+```bash
+sed -i "/jerrywang/d" /etc/apt/sources.list
+apt-key del "9D9A A859 F750 24B1 A1EC  E16E 0E41 D354 A29A 440C"
+apt update
+```
 
 # 调整字体
 
