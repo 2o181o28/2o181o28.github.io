@@ -13,7 +13,7 @@ layout: null
       <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
       {% endif %}
       <changefreq>monthly</changefreq>
-      <priority>{% if post.top %}0.9{% else %}0.5{% endif %}</priority>
+      <priority>{% if post.top %}0.9{% else %}0.7{% endif %}</priority>
     </url>
   {% endfor %}
   {% for page in site.pages %}
@@ -25,7 +25,7 @@ layout: null
       <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     {% endif %}
     <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.1</priority>
   </url>
   {% endfor %}
 </urlset>
