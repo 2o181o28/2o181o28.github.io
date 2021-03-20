@@ -3,7 +3,7 @@ layout: default
 title: 2048
 ---
 
-<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+<header class="intro-header hd">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -23,14 +23,22 @@ title: 2048
 </script>
 
 <style>
-#mainDiv{
-	width:500px;
-	height:550px;
-	margin:0 auto;
-	padding:25px
+.hd{
+	background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}');
+	margin-bottom:20px
 }
-#cvs{
-	margin-top:60px
+@media only screen and (max-width: 767px){
+	#tag-heading{
+		padding:50px 0 5px;
+	}
+}
+#mainDiv{
+	width:min(450px,100vw);
+	margin:0 auto;
+}
+#canvas{
+	margin-top:20px;
+	width:100%;
 }
 #scp{
 	font:bold 20px arial;
@@ -50,6 +58,12 @@ title: 2048
 	background-color:#cdc1b2;
 	font:bold 20px arial
 }
+.abt{
+	margin-top:10px;
+	display:block;
+	text-align:center;
+	color:gray
+}
 </style>
 
 <div id="mainDiv">
@@ -58,9 +72,9 @@ title: 2048
 
 <button class="rst" onclick="reset()">Reset</button>
 
-<div id="cvs">
 <canvas id="canvas" width="450" height="450"></canvas>
-</div>
+
+<a href="/2020/02/25/2048" class="abt" target="_blank">About</a>
 
 </div>
 
