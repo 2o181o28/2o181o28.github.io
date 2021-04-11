@@ -1,7 +1,7 @@
 # Site settings
 title: cosmicAC's Blog
 SEOTitle: cosmicAC的博客 | cosmicAC's Blog
-header-img: img/brimstone.jpg
+header-img: img/header-img.jpg
 email: 2o18o424@gmail.com
 description: "Some dying memory..."
 # keyword: ""
@@ -20,7 +20,7 @@ github_repo: "https://github.com/2o181o28/2o181o28.github.io.git" # you code rep
 RSS: false
 # weibo_username:     qiubaiying
 zhihu_username:     sarvatathagata
-github_username:    2o181o28
+github_username:    2o181o28	
 # facebook_username:  baiying.qiu.7
 # jianshu_username:   e71990ada2fd
 #twitter_username:   qiubaiying
