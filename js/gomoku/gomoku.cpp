@@ -4,7 +4,6 @@
 #include<cstring>
 #include<algorithm>
 #include<iostream>
-#include<cassert>
 #include<cmath>
 #include<unordered_map>
 #include<vector>
@@ -20,11 +19,14 @@ template<typename tn> void read(tn &a){
 	a=x*f;
 }
 
+double eps(double x){return max(abs(x)/1e14,1.);}
+
 const ll mod=1e17l+3;
 int LEN,mx_dep=9,nod_cnt,time_lim=1e4;
 clk::time_point stt;
 bool time_out,is_board;
 unordered_map<ll,pair<int,int>> mp;
+unordered_map<ll,pair<double,double>> mp1[30];
 //uniform_real_distribution<double> U(-.1,.1);
 //default_random_engine E(clock()+time(0));
 
@@ -46,7 +48,6 @@ struct game{
 		clear();
 	}
 	void set_impl(int x,int y,int tag){
-		assert(a[x][y]==0);
 		a[x][y]=tag+1;
 		mxx=max(mxx,x);mnx=min(mnx,x);
 		mxy=max(mxy,y);mny=min(mny,y);
@@ -78,7 +79,6 @@ struct game{
 	void set(int x,int y){set_impl(x,y,tag);tag^=1;}
 	void reset(int x,int y){
 		//not back up mn mx
-		assert(a[x][y]==(tag^1)+1);
 		a[x][y]=0;tag^=1;	
 		int tx=x,ty=y;
 		for(int i=1;i<=5;i++){
@@ -213,23 +213,44 @@ double search(game G,int x,int y,int dep,double A,double B){
 	if(clk::now()-stt>time_lim*1ms){time_out=true;return 0;}
 	G.set(x,y);
 	if(dep==mx_dep) return p.calc(G);
-	ll hs=G.hsh();int lim=limits[dep],mlt=dep&1?1:-1;
+	ll hs=G.hsh();
+	if(mp1[mx_dep-dep].count(hs)){
+		double l,u;tie(l,u)=mp1[mx_dep-dep][hs];
+		if(l>=B)return l;
+		if(u<=A)return u;
+		A=max(A,l),B=min(B,u);
+	}
+	auto&r=mp1[mx_dep-dep][hs];
+	int lim=limits[dep],mlt=dep&1?1:-1;
 	pair<int,int> kl;
 	if(mp.count(hs))kl=mp[hs];else kl={-1,-1};
-	if(G.finish()) return mlt*1e103/dep;
+	if(G.finish()) {
+		double rt=mlt*1e103/dep;
+		r={rt,rt};return rt;
+	}
 	auto v=p.get_nxts(G);
 	for(auto it=v.begin();it!=v.end();++it)if(*it==kl){
 		rotate(v.begin(),it,it+1);break;
 	}
-	int cnt=0;
-	double mv=mlt*1e200;
+	int cnt=0;double oA=A,oB=B,mv=mlt*1e200;
 	for(auto&pr:v){
 		if(++cnt>lim) break;
-		double nv=search(G,pr.first,pr.second,dep+1,A,B);
+		double nv;
+		if(cnt==1)nv=search(G,pr.first,pr.second,dep+1,A,B);
+		else{
+			if(dep&1)nv=search(G,pr.first,pr.second,dep+1,B-eps(B),B);
+			else nv=search(G,pr.first,pr.second,dep+1,A,A+eps(A));
+			if(nv>A && nv<B){
+				if(dep&1)nv=search(G,pr.first,pr.second,dep+1,A,nv);
+				else nv=search(G,pr.first,pr.second,dep+1,nv,B);
+			}
+		}
 		if(dep&1)mv=min(mv,nv),B=min(B,mv);else mv=max(mv,nv),A=max(A,mv);
 		if(time_out)return 0;
 		if(B<=A) {mp[hs]=pr;break;}
 	}
+	if(mv<=oA)r={-1e200,mv};else
+	if(mv>=oB)r={mv,1e200};else r={mv,mv};
 	return mv;
 }
 pair<int,int> Search_for_next(game G,double*ret=NULL){
@@ -244,15 +265,22 @@ pair<int,int> Search_for_next(game G,double*ret=NULL){
 	pair<int,int> onxt;double oval=-1e200;
 	static double ev[21][21];
 	for(mx_dep=3;mx_dep<=17;mx_dep+=2){
-		double A=-1e200,B=1e200;
+		double A=-1e200,B=1e200;int cnt=0;
 		pair<int,int> nxt;double val=-1e200;
 		for(auto&pr:v){
-			double vl=search(G,pr.first,pr.second,1,A,B);
-			ev[pr.first][pr.second]=vl;
+			double vl;
+			if(++cnt==1){
+				vl=search(G,pr.first,pr.second,1,A,B);
+			}else{
+				vl=search(G,pr.first,pr.second,1,A,A+eps(A));
+				if(vl>A && vl<B)
+					vl=search(G,pr.first,pr.second,1,vl,B);
+			}
 			if(time_out){
 				if(ret)*ret=oval;
 				return onxt;
 			}
+			ev[pr.first][pr.second]=vl;
 //			printf("%d %d %.1lf\n",pr.first,pr.second,vl);
 			if(vl>val) val=vl,nxt=pr;
 			A=max(A,vl);
