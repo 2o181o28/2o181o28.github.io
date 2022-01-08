@@ -3,6 +3,7 @@ layout:		post
 title:		用WebAssembly实现的五子棋程序
 subtitle:	AI来自snz
 date:		2020-12-13
+editdate:	2022-01-08
 author:		wyj
 catalog:	true
 tags:
@@ -12,6 +13,7 @@ tags:
 
 {:c:.Z .language-cpp}
 {:j:.Z .language-javascript}
+{:h:.Z .language-html}
 
 这是继[2048](http://2o181o28.github.io/2048)之后的又一个我给博客添加的小游戏。[网址](/gomoku/)。推荐用Firefox浏览，因为对于此程序而言，Firefox的WebAssembly速度比Chrome快1.5倍左右，棋力会有显著提高。
 
@@ -95,3 +97,9 @@ let new_type=Array.prototype.indexOf.call(checked_elem.parentNode.children,check
 我需要维护一个“历史记录”，来支持悔棋、复盘之类的功能，需要把当前的棋盘数组拷到栈里面去。然而js连个deep clone的实现都没有，我还必须折腾一发，把棋盘给`JSON.stringify`，再`JSON.parse`用于复制，所幸这和把当前局面保存到localStorage以及从localStorage中加载的过程一模一样，可以复用代码，不然真要烦死了。
 
 写下来最大的感受就是ES6的模板字符串是真的好用，比之前2048里那种+来+去的写法舒服多了。
+
+# 2022-01-08 UPD: 移动设备兼容性
+
+之前我的这个网页在手机上是完全无法查看的，点击棋盘或者按钮都是毫无反应。实际上这是因为我的大`<div>`没有高度，导致棋盘所在位置被footer覆盖。而`<div>`没有高度又是因为使用了float属性来布局。这个解决其实非常简单，按照[这个网页](https://www.jianshu.com/p/a1724eeb07a6)中说的，加一个`<div style="clear:both"></div>`{:h}就行了。
+
+现在解决了棋盘点击的问题，但按钮仍然没有足够的位置来显示，导致文字溢出屏幕。因为原本的左右分栏的布局并不适合在手机上显示，我就稍微改了下css，让在手机上变成上方显示棋盘，下方显示文字和按钮。还是使用[2048](/2020/02/25/2048/#%E6%9B%B4%E6%96%B0%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E5%85%BC%E5%AE%B9%E6%80%A7)里的方法来为不同大小的屏幕生成不同的css。

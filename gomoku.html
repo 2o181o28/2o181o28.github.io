@@ -3,7 +3,7 @@ layout: default
 title: Gomoku
 ---
 
-<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+<header class="intro-header hd">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -19,6 +19,10 @@ title: Gomoku
 <script src="/js/gomoku/main.js"></script>
 
 <style>
+.hd{
+	background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}');
+	margin-bottom:20px
+}
 input[type=number]{
 	border:0;
 	outline:0;
@@ -36,17 +40,43 @@ button{
 	width:min(800px,100%);
 	margin:auto;
 }
-#lpart{
-	float:left;
-	width:65%;
-	height:min(calc(800px*0.65),60vw);
+#abt{
+	text-align:center;
+	color:gray
 }
-#rpart{
-	float:right;
-	position:relative;
-	padding-left:5%;
-	width:35%;
-	height:min(calc(800px*0.65),60vw);
+@media only screen and (max-width: 767px){
+	#tag-heading{
+		padding:50px 0 5px;
+	}
+	#lpart{
+		width:100%;
+		height:100vw;
+	}
+	#rpart{
+		width:100%;
+	}
+	#abt{
+		display:inline-block;
+		width:100%;
+	}
+}
+@media only screen and (min-width: 768px){
+	#lpart{
+		float:left;
+		width:65%;
+		height:min(calc(800px*0.65),65vw);
+	}
+	#rpart{
+		float:right;
+		position:relative;
+		padding-left:5%;
+		width:35%;
+		height:min(calc(800px*0.65),65vw);
+	}
+	#abt{
+		position:absolute;
+		bottom:0;left:12.5%;right:0;
+	}
 }
 </style>
 
@@ -88,7 +118,7 @@ button{
 			<button onclick="full_forward()">&#x25B8;&#x25B8;</button>
 		</div>
 		<div class="alert alert-info" style="margin-top:20px" id="busy">AI is thinking...</div>
-		<a href="/2020/12/13/WebAssembly%E4%BA%94%E5%AD%90%E6%A3%8B/" style="position:absolute;bottom:0;left:12.5%;right:0;display:block;text-align:center;color:gray" class="abt" target="_blank">About</a>
+		<a href="/2020/12/13/WebAssembly%E4%BA%94%E5%AD%90%E6%A3%8B/" id="abt" target="_blank">About</a>
 	</div>
-	<div style="display:block"></div>
+	<div style="clear:both"></div>
 </div>
