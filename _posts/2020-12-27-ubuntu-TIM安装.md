@@ -2,7 +2,7 @@
 layout:		post
 title:		新版deepin TIM等软件在Ubuntu上的安装办法
 date:		2020-12-27
-editdate:	2021-02-08
+editdate:	2022-04-22
 author:		wyj
 catalog:	true
 tags:
@@ -13,21 +13,33 @@ tags:
 
 我正在使用的wine TIM版本是非常古老的，古老到腾讯可能不太支持了，不能传图片，不能显示别人分享的网址，（几乎）不能显示图片，也（几乎）不能收文件。所以使用过程中问题很大。然而现在TIM等等的商业软件被从各种仓库中删除了，导致更新一个正常的TIM版本非常困难，折腾了我整整一个晚上。
 
+**2022-04-22 UPD:**后来这个方法完全失效了，让我又折腾了一小时来修复它。下面的是修复后的方法，在20.04和22.04上都能用。
+
 # 下载方法
 
 **在root权限下**执行以下的命令:
 ```bash
-echo "deb [by-hash=force] https://sucdn.jerrywang.top / " >> /etc/apt/sources.list
+echo "deb [by-hash=force] https://d.store.deepinos.org.cn / " >> /etc/apt/sources.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E41D354A29A440C
 apt update
 apt install com.qq.tim.spark 
 ```
+下载微信等软件也是类似的。
 当然你可以卸磨杀驴，在安装完成之后就把这个奇奇怪怪的源删掉：
 ```bash
-sed -i "/jerrywang/d" /etc/apt/sources.list
-apt-key del "9D9A A859 F750 24B1 A1EC  E16E 0E41 D354 A29A 440C"
+sed -i "/deepin/d" /etc/apt/sources.list
+apt-key del 0E41D354A29A440C
 apt update
 ```
+
+# Ubuntu 22.04上额外要做的
+
+如果你老老实实地按照上面的步骤去做了，你就会得到每一个Ubuntu用户都喜闻乐见的一段文字：
+
+> 下列软件包有未满足的依赖关系：  
+ deepin-wine5-i386:i386 : 依赖: libldap-2.4-2:i386 (>= 2.4.7) 但无法安装它
+ 
+虽然网上有一大堆遇到这个问题的人，但我没能搜到解决方案。但不要慌，这个实际上是可以解决的。从20.04的软件源中把[这个deb](https://launchpad.net/ubuntu/focal/i386/libldap-2.4-2/2.4.49+dfsg-2ubuntu1.8)下载下来手动安装即可。安装微信的时候需要用到64位的`libldap-2.4-2`，也可以直接[下载](https://launchpad.net/ubuntu/focal/amd64/libldap-2.4-2/2.4.49+dfsg-2ubuntu1.8)。如果你已经安装了别的版本的libldap也没问题，幸运的是这个软件的多个版本可以共存，不会有依赖冲突。
 
 # 调整字体
 
