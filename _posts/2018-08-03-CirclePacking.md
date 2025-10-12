@@ -7,7 +7,7 @@ author:		wyj
 catalog:	true
 tags:
     - Qt
-    - 乱搞
+    - 数值计算与近似
 ---
 
 （假装自己在写论文）
